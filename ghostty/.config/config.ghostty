@@ -1,0 +1,15 @@
+theme = Dracula
+
+# Fonts (optional but recommended for glyphs/icons)
+font-family = "MesloLGS Nerd Font"
+font-size = 14
+
+window-padding-x = 10
+window-padding-y = 8
+
+cursor-style = block
+
+# tmux + SSH compatibility “safe mode”
+term = xterm-256color
+
+scrollback-limit = 20000
