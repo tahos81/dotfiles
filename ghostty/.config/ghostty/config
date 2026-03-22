@@ -9,7 +9,4 @@ window-padding-y = 8
 
 cursor-style = block
 
-# tmux + SSH compatibility “safe mode”
-term = xterm-256color
-
 scrollback-limit = 20000
