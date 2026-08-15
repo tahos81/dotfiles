@@ -9,8 +9,15 @@ vim.opt.relativenumber = true
 vim.opt.cursorline = true
 vim.opt.termguicolors = true
 vim.opt.signcolumn = "yes"
+-- Code files: no wrap, but make horizontal scrolling smooth and show indicators
+-- when lines extend past the viewport (›/‹ in the gutter).
+-- Prose filetypes (markdown, text, gitcommit) override this below — see FileType autocmd.
 vim.opt.wrap = false
+vim.opt.sidescroll = 1       -- scroll 1 char at a time instead of half-screen jump
 vim.opt.scrolloff = 8
+vim.opt.sidescrolloff = 8    -- horizontal version of scrolloff — keeps cursor 8 cols from edge
+vim.opt.list = true
+vim.opt.listchars = { extends = "›", precedes = "‹", tab = "  " }
 
 vim.opt.expandtab = true
 vim.opt.tabstop = 2
@@ -41,6 +48,18 @@ vim.opt.updatetime = 250
 vim.opt.autoread = true
 vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
   command = "checktime",
+})
+
+-- Prose filetypes: wrap long lines at word boundaries with preserved indent.
+-- Code keeps the global `nowrap` + horizontal-scroll setup; prose gets proper wrapping.
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown", "text", "gitcommit", "mail" },
+  callback = function()
+    vim.opt_local.wrap = true
+    vim.opt_local.linebreak = true    -- break at word boundaries, not mid-word
+    vim.opt_local.breakindent = true  -- wrapped lines inherit indent of the original
+    vim.opt_local.showbreak = "↪ "    -- visual marker at the start of continuation lines
+  end,
 })
 
 -- Clear search highlight with Esc (no more :noh)
